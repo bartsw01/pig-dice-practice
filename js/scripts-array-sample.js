@@ -1,138 +1,125 @@
-// Back end
-function PigDicePlayers = function (){
-  this.Players = [];
-};
+// Bussiness logic
+var playersArray = []
+var turnRollArray = []
 
-PigDicePlayers.prototype.addPlayer = function (Player) {
-  this.Players.push(Player);
-  Player.id = this.Players.length;
-  return this;
-};
-
-function Player(name, score, roll) {
-  this.name = name;
-  this.score = 0;
-  this.roll = 0;
-  this.id = null;
-  return alert('Player' + this.name + ' has been created');
-};
-
-var rollDice = function() {
-  return Math.ceil(Math.random()*6);
+function Player(playerName, score) {
+  this.playerName= playerName;
+  this.score = score;
+  playersArray.push(this);
 }
 
-// Front end
-$(document).ready(function(){
-  $("#enter1").click(function(event){
+
+Array.prototype.sum = function() {
+  return this.reduce(function(a,b) {return a + b});
+}
+
+
+
+// UI logic
+$(document).ready(function() {
+  // Player name submit button
+  $("form#playerNameForm").submit(function(event) {
     event.preventDefault();
-    var computerTempScore = 0;
-    var computerTempScore2 = 0;
-    var inputtedPlayerName = $("input#playername").val();
-    // alert(inputtedPlayerName);
-    var newPlayer = new Player(inputtedPlayerName);
+    // debugger;
+    var player1Name = $("#player1Name").val();
+    var player2Name = $("#player2Name").val();
+    var player1 = new Player(player1Name, 0);
+    var player2 = new Player(player2Name, 0);
+    $("#player1Display").text(playersArray[0].playerName + "'s turn").show();
+    showNamesAndScores();
+    $("form").hide();
+    $(".gameStuff").show();
+  });
 
-    $(".player1Name").text(newPlayer.name);
-
-  $("#enter2").click(function(event){
+  $("#diceRoll").click(function(event) {
     event.preventDefault();
-    var inputtedPlayerName = $("input#player2name").val();
-    var newPlayer2 = new Player(inputtedPlayerName);
-    $(".player2Name").text(newPlayer2.name);
-
-  $("#enter3").click(function(event){
-    event.preventDefault();
-    var inputtedPlayerName = $("input#player3name").val();
-    var newPlayer3 = new Player(inputtedPlayerName);
-    $(".player3Name").text(newPlayer3.name);
-
-  $("#play-button").click(function(event){
-    event.preventDefault();
-    $("#player-name").hide();
-
-
-    $("button#roll-button").click(function(event){
-      event.preventDefault();
-
-    roll = rollDice();
-    $("span#result").text(roll);
-
-    if (roll === 1){
-      newPlayer.roll = 0;
-    // alert(newPlayer.roll);
-      if (roll === 1){
-        alert("1 Rolled..... turn over");
-
-        // alert("Computer Turn");
-        // $("#player1panel").hide();
-        // $("#computer-panel").show();
-        // roll = rollDice();
-        // $("span#result2").text(roll);
-        // if (roll === 1){
-        //   computerTempScore = 0;
-        //   if (roll === 1){
-        //     alert("1 Rolled..... turn over");
-        //   }
-        // }
-        // alert(roll);
-        // computerTempScore = computerTempScore + roll;
-        // alert(computerTempScore);
-        // roll = rollDice();
-        // if (roll === 1){
-        //   computerTempScore = 0;
-        //
-        //   if (roll === 1){
-        //     alert("1 Rolled..... turn over");
-        //   }
-        // }
-        // alert(roll);
-        // computerTempScore2 = computerTempScore + roll;
-        // alert(computerTempScore2);
-        alert(newPlayer2.name + "Your Turn");
-        $("#player1panel").show();
-        $("#computer-panel").hide();
-
-      }
+    $("#rollResult").show();
+    $(".showTurnTotal").show();
+    var randomRoll = (1 + Math.floor(Math.random() * 6));
+    $("#rollResult").text(randomRoll);
+    if (randomRoll >= 2) {
+      turnRollArray.push(randomRoll);
+      $("#turnTotal").text(turnRollArray.sum());
     } else {
-      newPlayer.roll += roll;
+      rollOneChangePlayers();
     }
-    $("span#tempScore2").text(newPlayer2.roll);
-    });
-    $("button#hold-button").click(function(event){
-      event.preventDefault();
-      newPlayer.score += newPlayer.roll;
-      newPlayer.roll = 0;
-      $("span#playerScore").text(newPlayer.score);
-      if (newPlayer.score >= 100){
-        alert(newPlayer.name + " WINS!!!");
-      } else alert(NewPlayer.name)
+  });
 
-      // alert("Computer Turn");
-      // $("#player1panel").hide();
-      // $("#computer-panel").show();
-      // roll = rollDice();
-      // $("span#result2").text(roll);
-      //
-      // var turn = 0;
-      // var maxTurn = rollDice();
-      //
-      // while ((roll !==1) && (turn <=maxTurn)) {
-      //   computerTempScore = computerTempScore + roll;
-      //   alert(roll);
-      //   alert(computerTempScore);
-      //   roll = rollDice();
-      //   if (roll ===1) {
-      //     computerTempScore = 0;
-      //   }
-      //   turn +=1;
-      // }
-      // console.log(computerTempScore);
+// player 1
+  $("#endTurnBtn").click(function(event){
+    changePlayers();
+    if (playersArray[0].score >= 100){
+      alert(playersArray[0].playerName + " wins!!");
+      document.location.reload(true);
+    } else if (playersArray[1].score >= 100) {
+      alert(playersArray[1].playerName + " wins!!");
+      document.location.reload(true);
+  }
+  });
 
-      alert(newPlayer.name + "Your Turn");
-      $("#player1panel").show();
-      $("#computer-panel").hide();
-      });
-  });
-  });
-  });
-  });
+  function showNamesAndScores() {
+    $("#playerOneName").text(playersArray[0].playerName);
+    $("#playerTwoName").text(playersArray[1].playerName);
+    $("#playerOneTotalScore").text(playersArray[0].score);
+    $("#playerTwoTotalScore").text(playersArray[1].score);
+  }
+
+  function rollOneChangePlayers() {
+      if ($("#player1Display").is(":visible")) {
+        turnRollArray = [0];
+        $("#turnTotal").text(turnRollArray);
+        setTimeout(function() { alert("YOU ROLLED A 1- NO POINTS!!"); }, 50 );
+        setTimeout(function() {$("#player2Display").text(playersArray[1].playerName + "'s turn").show();}, 100 );
+        $("#player1Display").hide();
+        showNamesAndScores();
+          }
+      else if ($("#player2Display").is(":visible")){
+        turnRollArray = [0];
+        $("#turnTotal").text(turnRollArray);
+        setTimeout(function() { alert("YOU ROLLED A 1- NO POINTS!!"); }, 50 );
+        setTimeout(function() {$("#player1Display").text(playersArray[0].playerName + "'s turn").show();}, 100 );
+        $("#player2Display").hide();
+        showNamesAndScores();
+      }
+    }
+
+  function changePlayers() {
+    if ($("#player1Display").is(":visible")) {
+      playersArray[0].score = (playersArray[0].score += turnRollArray.sum());
+      alert("Congrats, " + playersArray[0].playerName + ", you got " + turnRollArray.sum() +  " points!");
+      turnRollArray = [0];
+      $("#turnTotal").text(turnRollArray)
+      $("#player1Display").hide();
+      $("#player2Display").text(playersArray[1].playerName + "'s turn").show();
+      console.log(playersArray[0].score);
+      showNamesAndScores();
+    } else {
+      alert("Congrats, " + playersArray[1].playerName + ", you got " + turnRollArray.sum() +  " points!");
+      playersArray[1].score = (playersArray[1].score += turnRollArray.sum());
+      turnRollArray = [0];
+      $("#turnTotal").text(turnRollArray)
+      $("#player2Display").hide();
+      $("#player1Display").text(playersArray[0].playerName + "'s turn").show();
+      showNamesAndScores();
+      console.log(playersArray[1].score);
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });

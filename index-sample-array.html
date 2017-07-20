@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+   <link href="css/styles.css" rel="stylesheet" type="text/css">
+   <script src="js/jquery-3.2.1.js"></script>
+   <script src="js/scripts-master.js"></script>
+    <title>PIG DICE </title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="jumbotron">PIG &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DICE</h1>
+      <div class="row">
+        <div class="col-xs-3">
+          <div class="panel panel-success" id="player1panel">
+            <div class="panel-heading">
+              <h2>PLAYER 1:&nbsp;<span class="player1Name"></span></h2>
+            </div>
+            <div class="panel-body">
+              <p><span id="result"></span></p>
+              <p><span id="tempScore"></span></p>
+              <p>Score:<span id="playerScore"></span></p>
+            </div>
+            <div class="panel-footer">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-3">
+          <div class="panel panel-info" id="player2panel">
+            <div class="panel-heading">
+              <h2>PLAYER 2: &nbsp;<span class="player2Name"></h2>
+            </div>
+            <div class="panel-body">
+              <p><span id="result2"></span></p>
+              <p><span id="tempScore2"></span></p>
+              <p>Score:<span id="playerScore2"></span></p>
+            </div>
+            <div class="panel-footer">
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-3">
+          <div class="panel panel-danger" id="player3panel">
+            <div class="panel-heading">
+              <h2>PLAYER 3: &nbsp;<span class="player3Name"></h2>
+            </div>
+            <div class="panel-body">
+              <p><span id="result3"></span></p>
+              <p><span id="tempScore3"></span></p>
+              <p>Score:<span id="playerScore3"></span></p>
+            </div>
+            <div class="panel-footer">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-3">
+          <div class="panel panel-default" id="playerComputer">
+            <div class="panel-heading">
+              <h2>COMPUTER</h2>
+            </div>
+            <div class="panel-body">
+              <p><span id="result4"></span></p>
+              <p><span id="tempScore4"></span></p>
+              <p> Score:<span id="playerScore4"></span></p>
+            </div>
+            <div class="panel-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form id="player-name">
+        <div class="input-group form-group">
+            <input type="text" name="player-name" id="playername" class="form-control" placeholder="Enter Player 1 name">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" name="button" id="enter1">Enter</button>
+            </span>
+        </div>
+        <div class="input-group form-group">
+            <input type="text" name="player-name" id="player2name" class="form-control" placeholder="Enter Player 2 name">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" name="button" id="enter2">Enter</button>
+            </span>
+        </div>
+        <div class="input-group form-group">
+            <input type="text" name="player-name" id="player3name" class="form-control" placeholder="Enter Player 3 name">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" name="button" id="enter3">Enter</button>
+            </span>
+        </div>
+
+        <button type="submit" class="btn btn-success" name="button" id="play-button">Play</button>
+      </form>
+
+      <div class="panel" id="player1panel">
+        <div class="panel-body">
+          <img src="img/playimage.jpg" alt="image" id="diceimage">
+          <p><span id="result"></span></p>
+          <p><span id="tempScore"></span></p>
+          <p>Player 1:<span class="playerName"></span> Score:<span id="playerScore"></span></p>
+          <div class="panel-footer">
+            <button type="submit" class="btn btn-primary" name="button" id="roll-button">Roll</button>
+            <button type="submit" class="btn btn-danger" name="button" id="hold-button">Hold</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" id="computer-panel">
+        <div class="panel-body">
+          <p><span id="result2">0</span></p>
+          <p><span id="tempScore2">0</span></p>
+          <p>Computer Player: <span class="computerName"></span>Score:<span id="player2Score"></span></p>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
